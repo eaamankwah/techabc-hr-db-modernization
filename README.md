@@ -1,11 +1,11 @@
-# 🗄️ Tech ABC Corp — HR Database
+# Tech ABC Corp — HR Database
 
 > **Enterprise PostgreSQL 15 Human Resources Database**  
 > Replacing a shared Excel spreadsheet with a secure, normalized, ACID-compliant relational database for a 200-person multi-location technology company.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Project Overview](#-project-overview)
 - [Business Scenario](#-business-scenario)
@@ -33,7 +33,7 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 | Attribute | Value |
 |-----------|-------|
@@ -59,12 +59,12 @@ This rapid expansion exposed critical weaknesses in the HR department's Excel-ba
 
 | Risk | Impact | Resolution |
 |------|--------|------------|
-| 🔓 No salary access control | Any file recipient sees all compensation | Column-level `REVOKE` on `salary` |
-| 💥 Concurrent edit corruption | Multiple users overwrite each other's changes | ACID-compliant RDBMS transactions |
-| 📋 No data validation | Free-text fields allow any value | FK constraints + UNIQUE lookups |
-| 🗂️ No audit trail | No record of who changed what | Transactional write log |
-| 💾 No backup policy | Single file — no disaster recovery | Critical-tier: full weekly + daily incremental |
-| ⚖️ No retention enforcement | Federal 7-year requirement unenforceable | Soft-delete via `end_dt`; records never deleted |
+|  No salary access control | Any file recipient sees all compensation | Column-level `REVOKE` on `salary` |
+|  Concurrent edit corruption | Multiple users overwrite each other's changes | ACID-compliant RDBMS transactions |
+|  No data validation | Free-text fields allow any value | FK constraints + UNIQUE lookups |
+|  No audit trail | No record of who changed what | Transactional write log |
+|  No backup policy | Single file — no disaster recovery | Critical-tier: full weekly + daily incremental |
+|  No retention enforcement | Federal 7-year requirement unenforceable | Soft-delete via `end_dt`; records never deleted |
 
 ### Company Locations
 
@@ -78,7 +78,7 @@ This rapid expansion exposed critical weaknesses in the HR department's Excel-ba
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 **Source file:** `hr-dataset.xlsx` — 205 rows × 15 columns (199 current + 6 historical employee records)
 
@@ -137,7 +137,7 @@ MANAGER | START_DT | END_DT | LOCATION | ADDRESS | CITY | STATE | EDUCATION LEVE
 
 ---
 
-## 🗃️ Database Design
+## Database Design
 
 ### Normalization (3NF)
 
@@ -370,7 +370,7 @@ SELECT * FROM sp_get_employee_job_history('%Lembeck%');
 
 ---
 
-## 🏛️ Architecture
+## Architecture
 
 ### Data Science Flow Diagram
 
@@ -572,7 +572,7 @@ PostgreSQL's security model uses **default deny** — no access is granted unles
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -685,7 +685,7 @@ JOIN job_title       jt ON jt.title_nm   = s.job_title
 
 ---
 
-## 🔧 CRUD Operations
+## CRUD Operations
 
 ### Q1 — All employees with job titles and departments
 ```sql
@@ -717,7 +717,7 @@ SELECT * FROM job_title ORDER BY title_id;  -- Verify: row 11 updated
 DELETE FROM job_title WHERE title_nm = 'Web Developer';
 SELECT * FROM job_title ORDER BY title_id;  -- Verify: back to 10 rows
 ```
-> ⚠️ FK constraint prevents deletion if any `employee_job_history` rows reference this `title_id`.
+ FK constraint prevents deletion if any `employee_job_history` rows reference this `title_id`.
 
 ### Q5 — Employee count per department
 ```sql
@@ -753,7 +753,7 @@ ORDER BY h.start_dt;
 
 ---
 
-## 🔐 User Security
+## User Security
 
 ### PostgreSQL vs SQL Server Security Model
 
@@ -823,15 +823,15 @@ ORDER BY table_name;
 
 ---
 
-## 📁 Project Files
+## Project Files
 
 ```
 techabc-hr-db-modernization/
 │
-├── 📊  hr-dataset.xlsx                       Source data (205 rows × 15 columns)
-├── 📄  StageTableLoad.sql                    Raw source data load into staging (205 INSERT rows into proj_stg)
+├──   hr-dataset.xlsx                       Source data (205 rows × 15 columns)
+├──   StageTableLoad.sql                    Raw source data load into staging (205 INSERT rows into proj_stg)
 │
-├── 🗄️  TechABC_HR_Database_PostgreSQL.sql    Main script (DDL + Staging ETL + CRUD)
+├──   TechABC_HR_Database_PostgreSQL.sql    Main script (DDL + Staging ETL + CRUD)
 │       ├── Section 1:   CREATE lookup tables (department, job_title, location, education_level)
 │       ├── Section 2:   CREATE core tables (employee, employee_job_history)
 │       ├── Section 3:   ADD foreign key constraints
@@ -843,27 +843,27 @@ techabc-hr-db-modernization/
 │       ├── Section 9:   ETL — INSERT...SELECT job history from staging (sentinel → NULL)
 │       └── Section 10:  CRUD Q1–Q7 validation queries
 │
-├── ⭐  TechABC_HR_Step4_PostgreSQL.sql        Advanced objects (Step 4: Above & Beyond)
+├──   TechABC_HR_Step4_PostgreSQL.sql        Advanced objects (Step 4: Above & Beyond)
 │       ├── Q1: CREATE VIEW vw_excel_replica
 │       ├── Q2: CREATE FUNCTION sp_get_employee_job_history()
 │       └── Q3: NoMgr role + column-level GRANT/REVOKE
 │
-├── 🌐  ERD_Diagrams_PostgreSQL.html           Interactive ERD diagrams (open in browser)
+├──   ERD_Diagrams_PostgreSQL.html           Interactive ERD diagrams (open in browser)
 │       ├── Conceptual ERD
 │       ├── Logical ERD (3NF, snake_case attributes)
 │       └── Physical ERD (PostgreSQL types, Crow's foot notation)
 │
-├── 📄  HR_Database_Proposal.docx              Step 1: Business & Technical Requirements
-├── 📄  HR_Database_Steps2and3.docx            Steps 2 & 3: ERD Design + Implementation
-├── 📄  HR_Database_Step4.docx                 Step 4: Above and Beyond documentation
-├── 📄  TechABC_HR_Final_Report.docx           Comprehensive project report (all sections)
+├──   HR_Database_Proposal.docx              Step 1: Business & Technical Requirements
+├──   HR_Database_Steps2and3.docx            Steps 2 & 3: ERD Design + Implementation
+├──   HR_Database_Step4.docx                 Step 4: Above and Beyond documentation
+├──   TechABC_HR_Final_Report.docx           Comprehensive project report (all sections)
 │
-└── 📖  README.md                              This file
+└──   README.md                              This file
 ```
 
 ---
 
-## 💡 Key Design Decisions
+##  Key Design Decisions
 
 ### 1. Salary Isolation in `employee_job_history`
 
@@ -893,7 +893,7 @@ Rather than loading source data directly into normalized tables, the ETL uses a 
 
 ---
 
-## ⚖️ Compliance & Retention
+## Compliance & Retention
 
 | Requirement | Source | Implementation |
 |-------------|--------|----------------|
@@ -905,7 +905,7 @@ Rather than loading source data directly into normalized tables, the ETL uses a 
 
 ---
 
-## 🗺️ Future Roadmap
+## Future Roadmap
 
 ### Phase 1 — Payroll System Integration *(near-term)*
 - Provision functional non-expiring PostgreSQL service account via IT Security
@@ -926,7 +926,7 @@ Rather than loading source data directly into normalized tables, the ETL uses a 
 
 ---
 
-## 📚 References
+## References
 
 | Category | Reference |
 |----------|-----------|
@@ -945,6 +945,10 @@ Rather than loading source data directly into normalized tables, the ETL uses a 
 | ERD Tooling | Lucid Software Inc. (2024). [Lucidchart ERD Documentation](https://www.lucidchart.com/pages/entity-relationship-diagram). |
 
 ---
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 <div align="center">
 
